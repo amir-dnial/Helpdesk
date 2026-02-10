@@ -3,6 +3,27 @@ import { ref } from 'vue';
 
 const username = ref("")
 const password = ref("")
+const errorMessage = ref('')
+
+const login = async () => {
+    try {
+        const res = await axios.post('http:localhost:5173', {
+            username: username.value,
+            password: password.value
+        }, {
+            withCredentials: true
+        })
+        console.log(res.data)
+        window.location.href = '/'
+    } catch(e) {
+        if (e.response) {
+            errorMessage.value = err.response.data.message
+        }
+        console.log(errorMessage.value)
+        console.log('error bro')
+
+    }
+}
 </script>
 
 <template>
@@ -44,6 +65,7 @@ const password = ref("")
             >
                 <div
                     class="bg-[#1D546D] w-[50%] rounded-lg text-white font-bold text-center px-1 py-2 cursor-pointer hover:bg-[#38677c] transition-colors"
+                    @click="login()"
                 >
                     Login
                 </div>
